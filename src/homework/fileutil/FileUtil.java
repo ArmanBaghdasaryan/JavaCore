@@ -7,21 +7,21 @@ public class FileUtil {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-//        printSizeOfPackage();
-//        fileSearch();
-//        contentSearch();
-//        findLines();
+        printSizeOfPackage();
+        fileSearch();
+        contentSearch();
+        findLines();
         createFileWithContent();
     }
+
 
     //այս մեթոդը պետք է սքաններով վերցնի երկու string.
     // 1 - path թե որ ֆոլդերում ենք փնտրելու
     // 2 - fileName - ֆայլի անունը, որը փնտրում ենք։
     //Որպես արդյունք պտի ծրագիրը տպի true եթե կա էդ ֆայլը էդ պապկի մեջ, false եթե չկա։
     public static void fileSearch() {
-
 
 
         System.out.println("Please input path");
@@ -112,25 +112,29 @@ public class FileUtil {
     // 2 - fileName ֆայլի անունը, թե ինչ անունով ֆայլ է սարքելու
     // 3 - content ֆայլի պարունակությունը։ Այսինքն ստեղծված ֆայլի մեջ ինչ է գրելու
     // որպես արդյունք պապկի մեջ սարքելու է նոր ֆայլ, իրա մեջ էլ լինելու է content-ով տվածը
-    static void createFileWithContent() {
+    static void createFileWithContent() throws IOException {
         System.out.println("Please input path");
         String path = scanner.nextLine();
         System.out.println("Please input file name");
         String fileName = scanner.nextLine();
         System.out.println("Please input content");
         String content = scanner.nextLine();
-        File file = new File(path);
-
+        File file = new File(path + fileName);
         if (!file.exists()) {
-            try {
-                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName));
-                bufferedWriter.write(content);
-                bufferedWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            file.createNewFile();
+
         }
 
+
+        try (
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
+            bufferedWriter.write(content);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }
+
 
