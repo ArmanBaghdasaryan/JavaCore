@@ -78,12 +78,15 @@ public class FileUtil {
         System.out.println("Please input keyword");
         String keyword = scanner.nextLine();
         File file = new File(txtPath);
+        int lineNum = 0;
         try (
                 BufferedReader inputStream = new BufferedReader(new FileReader(txtPath))) {
             String line = "";
             while ((line = inputStream.readLine()) != null) {
+                lineNum++;
+
                 if (line.contains(keyword)) {
-                    System.out.println(line);
+                    System.out.println(lineNum + " "+line);
                 }
             }
         } catch (IOException e) {
